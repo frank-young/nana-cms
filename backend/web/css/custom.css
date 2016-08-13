@@ -1,0 +1,12 @@
+/**
+ *
+ * Apply your custom CSS here
+ *
+*/
+
+.main-content .breadcrumb{
+	float: right;
+}
+h1{
+	margin-bottom: 20px;
+}
