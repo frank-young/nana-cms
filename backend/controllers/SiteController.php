@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use backend\models\LoginForm;
 use backend\models\SignupForm;
+use backend\models\Admin;
 use yii\filters\VerbFilter;
 use common\models\Statistics;
 use common\models\StatisticsUnique;
@@ -25,7 +26,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','signup','logout'],
+                'only' => ['index','signup','logout','adminlist'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -106,5 +107,15 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionAdminlist()
+    {
+
+        $model = Admin::find()->all();
+
+        return $this->render('adminlist', [
+            'model' => $model,
+        ]);
     }
 }

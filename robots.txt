@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: 
+Disallow: /backend
+Disallow: /common
+Disallow: /console
+Disallow: /vendor
+Disallow: /tests
+Disallow: /environments
+Disallow: /data

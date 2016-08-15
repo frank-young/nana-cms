@@ -42,6 +42,7 @@ $this->params['email_num']=0;
             font-family: '微软雅黑';
             font-weight: 300;
         }
+
     </style>
 </head>
 <body class="page-body">
@@ -92,14 +93,11 @@ $this->params['email_num']=0;
                         
                         
                 <ul id="main-menu" class="main-menu">
-                    <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                    <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
 
-                            <li>
-                                <?= Html::a('<i class="linecons-globe"></i><span class="title">统筹全局</span>', ['site/index'])
-                                ?>
-                            </li>
-
+                    <li>
+                        <?= Html::a('<i class="linecons-globe"></i><span class="title">统筹全局</span>', ['site/index'])
+                        ?>
+                    </li>
                     
                     <li>
                         <a href="index.php?r=products%2Findex">
@@ -119,7 +117,6 @@ $this->params['email_num']=0;
                                 <?= Html::a('<span class="title">新建产品</span>', ['products/create'])
                                 ?>
                             </li>
-                            
                             
                         </ul>
                     </li>
@@ -141,7 +138,7 @@ $this->params['email_num']=0;
                     </li>
                     <li>
                         <a href="index.php?r=article/index">
-                            <i class="linecons-star"></i>
+                            <i class="linecons-pencil"></i>
                             <span class="title">文章管理</span>
                         </a>
                         <ul>
@@ -171,12 +168,12 @@ $this->params['email_num']=0;
                     </li>
                     <li>
                         <a href="index.php?r=site%2Findex">
-                            <i class="linecons-database"></i>
+                            <i class="linecons-user"></i>
                             <span class="title">管理员设置</span>
                         </a>
                         <ul>
                             <li>
-                                <?= Html::a('<span class="title">管理员列表</span>', ['site/index'])
+                                <?= Html::a('<span class="title">管理员列表</span>', ['site/adminlist'])
                                 ?>
                             </li>
                             <li>
@@ -187,7 +184,7 @@ $this->params['email_num']=0;
                     </li>
                     <li>
                         <a href="index.php?r=setting%2Findex">
-                            <i class="linecons-database"></i>
+                            <i class="linecons-desktop"></i>
                             <span class="title">站点设置</span>
                         </a>
                         <ul>
@@ -200,12 +197,10 @@ $this->params['email_num']=0;
                 </ul>
                 <!-- ./ul    -->
             </div>
-            
         </div>
 
-        
         <div class="main-content">
-                    
+           
             <!-- User Info, Notifications and Menu Bar -->
             <nav class="navbar user-info-navbar" role="navigation">
                 
@@ -393,10 +388,7 @@ $this->params['email_num']=0;
         </div>
          
         <?= $content ?>
-        <!-- Main Footer -->
-            <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
-            <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
-            <!-- Or class "fixed" to  always fix the footer to the end of page -->
+
             <footer class="main-footer sticky footer-type-1">
                 
                 <div class="footer-inner">
@@ -405,11 +397,9 @@ $this->params['email_num']=0;
                     <div class="footer-text">
                         &copy; <?php echo date("Y")?>
                         <strong>呐呐科技</strong> 
-                        版权所有 (<a href="http://www.nana-1.net/" target="_blank" title="呐呐科技">www.nana-1.com</a>)
+                        版权所有 (<a href="http://www.nanafly.com/" target="_blank" title="呐呐科技">www.nanafly.com</a>)
                     </div>
                     
-                    
-                    <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
                     <div class="go-up">
                     
                         <a href="#" rel="go-top">
@@ -431,9 +421,55 @@ $this->params['email_num']=0;
 
 <?php $this->endBody() ?>
 <script>
-    // window.onload = function(){
-    //  show_loading_bar(100);
-    // }
+    
+    var page = {
+        //获取页面
+        pageType: function(){
+            var str = window.location.href,
+            exp = /(r=)\w+/;
+            var title = exp.exec(str)[0].substring(2);
+            return title;
+        },
+        //页面转换
+        pageChange: function () {
+            var title = this.pageType();
+            switch (title) {
+                case 'site':
+                    var num = 0;
+                    break;
+                case 'products':
+                    var num = 1;
+                    break;
+                case 'cate':
+                    var num = 1;
+                    break;
+                case 'inquiry':
+                    var num = 2;
+                    break;
+                
+                case 'article':
+                    var num = 3;
+                    break;
+                case 'statistics':
+                    var num = 4;
+                    break;
+                case 'setting':
+                    var num = 6;
+                    break;
+            }
+            return num;
+        },
+        //切换menu
+        showMenu: function(){
+            var num = this.pageChange();
+
+            $('#main-menu>li').eq(num).addClass('expanded').find('ul').css({'display':'block'})
+        }
+    };
+
+    page.showMenu()
+
+
 </script>
 
 </body>

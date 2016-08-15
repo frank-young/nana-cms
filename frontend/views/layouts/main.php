@@ -1,16 +1,18 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\models\Setting;
 
 AppAsset::register($this);
+
+//这里暂时违背了MVC模式，将控制器的内容放在了视图里
+$setting = Setting::findOne(1);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -18,8 +20,11 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="<?php echo $setting->webdesc; ?>">
+    <meta name="description" content="<?php echo $setting->webdesc; ?>">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <?php echo $setting->google; ?>
     <?php $this->head() ?>
 </head>
 <body>
@@ -67,9 +72,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?php echo date('Y'); echo $setting->copyright; ?> </p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right">Power By <a href="http://nanafly.com">nana</a></p>
     </div>
 </footer>
 
@@ -145,6 +150,7 @@ AppAsset::register($this);
     <?php $this->endBlock() ?>  
     <?php $this->registerJs($this->blocks['statistics'], \yii\web\View::POS_END); ?>  
 </script>
+
 </body>
 </html>
 <?php $this->endPage() ?>
