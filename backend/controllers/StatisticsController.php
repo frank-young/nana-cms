@@ -118,7 +118,7 @@ class StatisticsController extends Controller
     public function actionView($id)
     {
         $arr = StatisticsUnique::find()->select('ip')->where(['id'=>$id])->asArray()->one();
-        $model_orign = Statistics::find()->select('id,url,title,time')->where(['ip'=>$arr['ip']])->asArray()->all();
+        $model_orign = Statistics::find()->select('id,url,title,time,point')->where(['ip'=>$arr['ip']])->asArray()->all();
         $model = [];
         foreach ($model_orign as $key => $value) {
            $model[date('Y-m-d',$value['time'])][$key] =$value;
