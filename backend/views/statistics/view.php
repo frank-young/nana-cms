@@ -62,7 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					</a>
 				</h2>
 				<p>
-					<a href="<?=$value['url']?>"><?=$value['url']?></a>
+					<a href="index.php?r=statistics%2Fheatmap&id=<?php echo $value['id'] ?>">查看热力图</a>
+
 				</p>
 			</div>
 		</li>

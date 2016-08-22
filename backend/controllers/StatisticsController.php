@@ -8,6 +8,7 @@ use common\models\StatisticsUnique;
 use common\models\StatisticsUniqueSearch;
 use common\models\Products;
 use common\models\Inquiry;
+use common\models\Heatmap;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
@@ -99,6 +100,9 @@ class StatisticsController extends Controller
             $country_data[$value]=StatisticsUnique::find()->where(['country'=>$value])->count();
         }
 
+        /* 热力图页面统计 */
+
+
         return $this->render('chart',[
         		'count'=>$count,
         		'all'=>$all,
@@ -114,7 +118,7 @@ class StatisticsController extends Controller
     public function actionView($id)
     {
         $arr = StatisticsUnique::find()->select('ip')->where(['id'=>$id])->asArray()->one();
-        $model_orign = Statistics::find()->select('url,title,time')->where(['ip'=>$arr['ip']])->asArray()->all();
+        $model_orign = Statistics::find()->select('id,url,title,time')->where(['ip'=>$arr['ip']])->asArray()->all();
         $model = [];
         foreach ($model_orign as $key => $value) {
            $model[date('Y-m-d',$value['time'])][$key] =$value;
@@ -145,6 +149,16 @@ class StatisticsController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionHeatmap($id)
+    {
+
+        $model = Statistics::find()->where(['id'=>$id])->asArray()->one();
+
+        return $this->renderPartial('heatmap', [
+            'model' => $model,
+        ]);
     }
 
     public function actionDelete($id)

@@ -36,6 +36,11 @@ class StatisticsController extends Controller
 			$dataUnique['province'] = $data['province'] = $json['province'];
 			$dataUnique['city'] = $data['city'] = $json['city'];
 
+            /* 热力图信息 */
+            $data['width'] = $request->get('pageWidth');
+            $data['height'] = $request->get('pageHeight');
+            $data['point'] = $request->get('point');
+
 			if($data->validate()){
 				$data->save();
 			}
@@ -43,12 +48,14 @@ class StatisticsController extends Controller
             if($dataUnique->validate()){
                 $dataUnique->save();
             }
+
     	}
-    	// \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-     //        $data = [
-     //            'success'=>"1",
-     //            ];
-     //        return $data;
+    	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $data = [
+                'success'=>"1",
+                'msg'=>"数据统计成功"
+                ];
+            return $data;
     }
 
 }

@@ -126,25 +126,46 @@ $setting = Setting::findOne(1);
             }
 
         }
+
+        /* 获取屏幕点位 */
+        function clickPoint(){
+
+            var ele =  document.getElementsByTagName('body')[0],
+                pointArr = [];
+
+            ele.onclick = function(e){
+                e = window.event || event;
+                var pointX = e.pageX,
+                    pointY = e.pageY;
+                    
+                pointArr.push({x:pointX,y:pointY,value:1})
+
+                var obj = { data:pointArr }; 
+                var str = JSON.stringify(obj); 
+                localStorage.point = str;
+            } 
+
+        }
+        
         function ajaxData(url){
-            var device = viewMessage.getDevice();
-            var title = viewMessage.getPageTitle();
-            var language = viewMessage.getBrowerLanguage();
-            var targetUrl = location.href;
+            var device = viewMessage.getDevice(),
+                title = viewMessage.getPageTitle(),
+                language = viewMessage.getBrowerLanguage(),
+                targetUrl = location.href,
+                pageWidth = document.body.clientWidth,  //屏幕宽度，用于热力图统计
+                pageHeight = document.body.scrollHeight,
+                point = localStorage.point;     //热力图点位
+
             $.ajax({
                 type: "get",
-                url: url+'&device='+device+'&title='+title+'&language='+language+'&url='+targetUrl,
-                // success: function(data){
-                //     console.log(data);
-                // },
-                // error: function(){
-
-                // }
+                url: url+'&device='+device+'&title='+title+'&language='+language+'&url='+targetUrl+'&pageWidth='+pageWidth+'&pageHeight='+pageHeight+'&point='+point
             });
         }
-        // $('#btn').click(function(){
-            ajaxData("index.php?r=statistics/save");
-        // })
+
+        
+        clickPoint();
+        ajaxData("index.php?r=statistics/save");
+
         
     }) 
     <?php $this->endBlock() ?>  
