@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+	<hr>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">阿里数据</div>
+			<div class="col-md-6 col-md-offset-3">
+				<form class="form-inline">
+					<div class="form-group">
+					    <input id="search" type="text" class="form-control" name="keywords" id="searchForm" placeholder="输入关键词">
+					</div>
+					<button id="searchBtn" type="button" class="btn btn-success">搜索</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+	<span class="sr-only">Loading...</span>
+	<div id="content" class="container"></div>
+	
+	<script src="js/jquery-2.2.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		var keyword = 'iphone';
+		$('#searchBtn').click(function(){
+			keyword = $('#search').val().trim();
+			getData(keyword);
+		})
+		function getData(keyword){
+			$.ajax({
+			    url: 'json.php?keyword='+keyword,
+			    dataType: 'JSON',
+			    jsonpCallback: 'callback',
+			    type: 'GET',
+			    success: function (data) {
+			        var html = '';
+			        data.normalList.forEach( function(element, index) {
+			        	html += '<div class="row"><div class="col-md-4"><img src="'+element.productImg+'" alt=""></div><div class="col-md-8"><h3>'+element.productTitle+'</h3><p>'+element.price+'</p><p>'+element.minOrder+'</p></div></div>';
+			        });
+			        $('#content').html(html)
+			    }
+			});
+		}
+
+	</script>
+</body>
+</html>
+
